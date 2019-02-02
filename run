@@ -1,0 +1,14 @@
+#!/bin/bash
+
+DIR_PATH=$(dirname "$SCRIPT")
+
+if ./build; then
+	echo "-----------------------------------"
+	echo "Running..."
+	./builds/3DGame
+	echo "-----------------------------"
+	echo ""
+fi
+
+
+

@@ -1,0 +1,15 @@
+#!/bin/bash
+
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+echo "Cleaning 3DGame on: "
+date
+
+DIR_PATH=$(dirname "$SCRIPT")
+
+rm -rf $DIR_PATH/builds/3DGame
+
+rm -rf $DIR_PATH/builds/3DGame.app/Contents/MacOS/3DGame
+rm -rf $DIR_PATH/builds/3DGame.app/Contents/Resources/res
+rm -rf $DIR_PATH/builds/3DGame.app/Contents/libs/libglfw3_2.dylib
+
+echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~"

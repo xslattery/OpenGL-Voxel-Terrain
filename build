@@ -1,0 +1,47 @@
+#!/bin/bash
+
+echo "====================================="
+echo "Compiling 3DGame on: "
+date
+
+## The directory of the project:
+DIR_PATH=$(dirname "$SCRIPT")
+
+## The name given to the output of the build:
+OUTPUT="-o builds/3DGame"
+
+## This automatically adds new file to the build:
+C_FILES="$DIR_PATH/src/*.c"
+CC_FILES="$DIR_PATH/src/*.cc"
+CPP_FILES="$DIR_PATH/src/*.cpp"
+OBJC_FILES="$DIR_PATH/src/*.m"
+OBJCPP_FILES="$DIR_PATH/src/*.mm"
+
+## This is where new libraries & frameworks are added to the build:
+LIBS="-framework Cocoa -framework OpenGL -l glfw3_2 -l freetype"
+INCLUDE_PATH="-I $DIR_PATH/libs/include"
+LIB_PATH="-L $DIR_PATH/libs"
+
+## This is the search path for dynamic libraries:
+R_PATH="-rpath @loader_path/../libs"
+
+## These are the warnings to ignore / enable:
+WARNINGS="-Wno-c++11-extensions -Wno-local-type-template-args"
+
+## "-Ofast" Doing an optimized build takes a lot more time.
+OPTIMIZATIONS="-O0" 
+
+start=$(date +%s)
+if clang++ -arch x86_64 $OPTIMIZATIONS $WARNINGS $R_PATH $LIB_PATH $INCLUDE_PATH $LIBS $CPP_FILES $OBJCPP_FILES $OUTPUT; then 
+	end=$(date +%s)
+	echo "Build Time: $(($end-$start)) sec ($OPTIMIZATIONS)"
+	echo "========== Success ==========";
+	echo "";
+	exit 0;
+else 
+	echo "========== Failed ==========";
+	echo "";
+	exit 1;
+fi
+
+

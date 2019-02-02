@@ -1,0 +1,42 @@
+#!/bin/bash
+
+echo "====================================="
+echo "Compiling 3DGame on: "
+date
+
+DIR_PATH=$(dirname "$SCRIPT")
+
+C_FILES="src/*.c"
+CC_FILES="src/*.cc"
+CPP_FILES="src/*.cpp"
+OBJC_FILES="src/*.m"
+OBJCPP_FILES="src/*.mm"
+
+LIBS="-framework Cocoa -framework OpenGL -l glfw3_2 -l freetype"
+INCLUDE_PATH="-I $DIR_PATH/libs/include"
+LIB_PATH="-L $DIR_PATH/libs $LIBS"
+
+R_PATH="-rpath @loader_path/../libs"
+
+R_WARNINGS="-Wno-c++11-extensions -Wno-local-type-template-args"
+
+OPTIMIZATIONS="-Ofast" # Doing an optimized build takes a lot more time.
+
+OUTPUT="-o builds/3DGame.app/Contents/MacOS/3DGame"
+
+start=$(date +%s)
+if clang++ -DBUILD_FOR_APP_BUNDLE=1 -arch x86_64 $OPTIMIZATIONS $R_WARNINGS $R_PATH $LIB_PATH $INCLUDE_PATH $CPP_FILES $OBJCPP_FILES $OUTPUT; then 
+	end=$(date +%s)
+	echo "Build Time: $(($end-$start)) sec ($OPTIMIZATIONS)"
+	echo "========== Success ==========";
+	echo "";
+	cp -a $DIR_PATH/res/. $DIR_PATH/builds/3DGame.app/Contents/Resources/res
+	cp -a $DIR_PATH/libs/libglfw3_2.dylib $DIR_PATH/builds/3DGame.app/Contents/libs
+	exit 0;
+else 
+	echo "========== Failed ==========";
+	echo "";
+	exit 1;
+fi
+
+
