@@ -1,4 +1,4 @@
-# OpenGL-Voxel-terrain
+# OpenGL-Voxel-Terrain
 
 This project renders an voxel terrain using OpenGL.
 
